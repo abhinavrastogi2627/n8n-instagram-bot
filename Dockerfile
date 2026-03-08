@@ -1,7 +1,6 @@
-FROM n8nio/n8n:latest
+FROM node:18-alpine
 
-USER root
-
+# Install system packages
 RUN apk add --no-cache \
     ffmpeg \
     python3 \
@@ -10,13 +9,15 @@ RUN apk add --no-cache \
     fontconfig \
     ttf-dejavu-sans
 
+# Install n8n
+RUN npm install -g n8n
+
+# Install Python packages
 RUN pip3 install boto3 requests --break-system-packages
 
+# Copy scripts
 COPY scripts/ /home/node/scripts/
-
 RUN chmod +x /home/node/scripts/*.py
-
-USER node
 
 EXPOSE 5678
 
