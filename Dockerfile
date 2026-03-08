@@ -2,13 +2,15 @@ FROM n8nio/n8n:latest
 
 USER root
 
-RUN apk add --no-cache \
+# n8n now uses a Debian-based image, use apt-get instead of apk
+RUN apt-get update && apt-get install -y \
     ffmpeg \
     python3 \
-    py3-pip \
+    python3-pip \
     curl \
     fontconfig \
-    ttf-dejavu
+    fonts-dejavu \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install boto3 requests --break-system-packages
 
